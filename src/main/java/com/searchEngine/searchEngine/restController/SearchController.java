@@ -1,4 +1,4 @@
-package com.searchEngine.searchEngine.controller;
+package com.searchEngine.searchEngine.restController;
 
 import java.io.IOException;
 import java.util.List;
@@ -14,7 +14,7 @@ import com.searchEngine.searchEngine.component.SearchService;
 import com.searchEngine.searchEngine.model.SearchResult;
 
 @RestController
-@RequestMapping("/engine")
+@RequestMapping("/api/engine")
 public class SearchController {
 
     @GetMapping("/search")

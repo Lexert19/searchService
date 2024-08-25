@@ -17,7 +17,6 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-
 @Component
 public class ApiKeyFilter extends OncePerRequestFilter {
     @Autowired
@@ -27,16 +26,26 @@ public class ApiKeyFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
 
+        String requestURI = request.getRequestURI();
+
+        if (!requestURI.startsWith("/api")) {
+            
+            filterChain.doFilter(request, response);
+            return;
+
+        }
+
         String apiKey = request.getHeader("apiKey");
         if (apiKeyService.apiKeyExists(apiKey)) {
             UserDetails userDetails = User
-                .withUsername("test")
-                .password("test")
-                .roles("USER")
-                .build();
-            UsernamePasswordAuthenticationToken userToken = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+                    .withUsername("test")
+                    .password("test")
+                    .roles("USER")
+                    .build();
+            UsernamePasswordAuthenticationToken userToken = new UsernamePasswordAuthenticationToken(userDetails, null,
+                    userDetails.getAuthorities());
             SecurityContextHolder.getContext().setAuthentication(userToken);
-            
+
         } else {
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
         }

@@ -11,8 +11,8 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.searchEngine.searchEngine.component.SearchService;
-import com.searchEngine.searchEngine.controller.SearchController;
 import com.searchEngine.searchEngine.model.SearchResult;
+import com.searchEngine.searchEngine.restController.SearchController;
 
 import java.io.IOException;
 import java.util.List;

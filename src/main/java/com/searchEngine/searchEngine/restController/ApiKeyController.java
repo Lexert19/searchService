@@ -1,4 +1,4 @@
-package com.searchEngine.searchEngine.controller;
+package com.searchEngine.searchEngine.restController;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

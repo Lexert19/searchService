@@ -42,9 +42,10 @@ dependencies {
 	implementation group: 'org.apache.lucene', name: 'lucene-queryparser', version: '9.11.1'
 	implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.17.2'
 	implementation group: 'org.jsoup', name: 'jsoup', version: '1.18.1'
-
+	implementation group: 'org.springframework.boot', name: 'spring-boot-starter-freemarker', version: '3.3.3'
 }
 
 tasks.named('test') {
 	useJUnitPlatform()
 }
+

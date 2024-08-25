@@ -1,4 +1,4 @@
-package com.searchEngine.searchEngine.controller;
+package com.searchEngine.searchEngine.restController;
 
 import java.io.IOException;
 import java.util.List;
@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.searchEngine.searchEngine.service.ScrapperService;
 
 @RestController
-@RequestMapping("/scrape")
+@RequestMapping("/api/scrape")
 public class ScrapeController {
     @Autowired
     private final ScrapperService scrapperService;
