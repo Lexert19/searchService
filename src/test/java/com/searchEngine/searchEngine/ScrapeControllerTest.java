@@ -31,6 +31,7 @@ public class ScrapeControllerTest {
                 .andExpect(content().string(containsString(scrapedText)));
     }
 
+
     @Test
     @WithMockUser(username = "user", roles = {"USER"})
     public void scrapeDomain() throws Exception {
@@ -46,4 +47,22 @@ public class ScrapeControllerTest {
         System.out.println(result);
 
     }
+
+    @Test
+    @WithMockUser(username = "user", roles = {"USER"})
+    public void scrapeHttpd_apache_org() throws Exception {
+        String domain = "httpd.apache.org";
+
+        String result = mockMvc.perform(MockMvcRequestBuilders.get("/scrape/domain")
+                .param("domain", domain))
+                .andExpect(status().isOk())
+                .andReturn()
+                .getResponse()
+                .getContentAsString();
+
+        System.out.println(result);
+
+    }
+
+    
 }

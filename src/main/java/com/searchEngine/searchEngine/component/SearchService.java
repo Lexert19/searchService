@@ -49,6 +49,7 @@ public class SearchService {
     public void indexDocument(String title, String content) throws IOException {
         if (allTitles.contains(title))
             return;
+        allTitles.add(title);
 
         IndexWriterConfig config = new IndexWriterConfig(analyzer);
 

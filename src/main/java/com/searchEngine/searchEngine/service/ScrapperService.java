@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Queue;
 
 import org.jsoup.Jsoup;
+import org.jsoup.UnsupportedMimeTypeException;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
@@ -16,10 +17,9 @@ import com.searchEngine.searchEngine.component.SearchService;
 
 @Service
 public class ScrapperService {
+    public static int LIMIT = 100;
 
-    public String scrapeDisplayedText(String url) throws IOException {
-        Document document = Jsoup.connect(url).get();
-
+    public String scrapeDisplayedText(Document document) throws IOException {
         StringBuilder displayedText = new StringBuilder();
 
         Elements textElements = document.select("p, h1, h2, h3, h4, h5, h6, li, span, div");
@@ -33,11 +33,29 @@ public class ScrapperService {
         return displayedText.toString();
     }
 
-    public List<String> scrapeLinksWithDomain(String url, String domain) throws IOException {
-        Document document = Jsoup.connect(url).get();
+    public String scrapePage(String url, String domain) throws IOException {
+        SearchService searchService = new SearchService(domain);
+        Document document;
+        try{
+            document = Jsoup.connect(url).get();
+        }catch(Exception exception){
+            exception.printStackTrace();
+            return "";
+        }
+        String displayedText = this.scrapeDisplayedText(document);
+        searchService.indexDocument(url, displayedText);
+        return displayedText;
+    }
+
+    // public List<String> scrapeLinksWithDomain(String url, String domain) throws IOException {
+
+       
+    // }
+
+    public List<String> scrapeLinksFromHtml(Document document, String domain, String url) throws IOException {
+        List<String> filteredLinks = new LinkedList<>();
 
         Elements links = document.select("a[href]");
-        List<String> filteredLinks = new LinkedList<>();
 
         for(Element link : links){
             String href = link.attr("abs:href");
@@ -47,10 +65,12 @@ public class ScrapperService {
         }
 
         return filteredLinks;
+
     }
 
 
-    public List<String> srapeLinksFromDomain(String domain, boolean https) throws IOException{
+    public List<String> scrapeDomain(String domain, boolean https) throws IOException{
+        SearchService searchService = new SearchService(domain);
         String protocol = https ? "https://" : "http://";
         String url = protocol+domain;
         HashSet<String> uniqueLinks = new HashSet<>();
@@ -59,35 +79,56 @@ public class ScrapperService {
         Queue<String> linksToDownload = new LinkedList<>();
         linksToDownload.add(url);
 
+        int counter = 0;
         while(!linksToDownload.isEmpty()){
+            if(counter > LIMIT)
+                break;
             String linkToDownload = linksToDownload.poll();
-            List<String> links = this.scrapeLinksWithDomain(linkToDownload, domain);
+            Document document;
+            try{
+                document = Jsoup.connect(linkToDownload).get();
+            }catch(UnsupportedMimeTypeException exception){
+                exception.printStackTrace();
+                continue;
+            }
+            List<String> links = this.scrapeLinksFromHtml(document, domain, linkToDownload);
+            String text = this.scrapeDisplayedText(document);
+            searchService.indexDocument(linkToDownload, text);
+
             for(String link : links){
                 if(!uniqueLinks.contains(link)){
                     linksToDownload.add(link);
                     uniqueLinks.add(link);
                 }
             }
+
+            counter++;
         }
 
         return new LinkedList<>(uniqueLinks);
     }
 
+    // public Document getUrl(String url){
+
+    // }
+
     public List<String> srapeLinksFromDomain(String domain) throws IOException{
-        return this.srapeLinksFromDomain(domain, true);
+        return this.scrapeDomain(domain, true);
     }
 
-    public void indexLinks(List<String> links, String domain) throws IOException{
-        SearchService searchService = new SearchService(domain);
+    // public void indexDocuments(List<Document> documents, String domain) throws IOException{
+    //     SearchService searchService = new SearchService(domain);
 
-        for(String link : links){
-            String text = this.scrapeDisplayedText(link);
-            searchService.indexDocument(link, text);
-        }
-    }
+    //     for(Document document : documents){
+    //         String text = this.scrapeDisplayedText(document);
+    //         searchService.indexDocument(document.title(), text);
+    //     }
+    // }
 
     private boolean isSameDomain(String url, String domain){
         if(url.startsWith("/"))
+            return true;
+        if(url.contains("://"+domain))
             return true;
 
         return false;

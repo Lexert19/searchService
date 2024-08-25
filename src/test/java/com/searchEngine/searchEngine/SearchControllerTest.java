@@ -62,4 +62,24 @@ class SearchControllerTest {
         System.out.println(result);
 
     }
+
+    @Test
+    @WithMockUser(username = "user", roles = { "USER" })
+    public void searchApache() throws Exception {
+        String text = "flood";
+
+        String result = mockMvc.perform(get("/engine/search")
+                .param("query", text)
+                .param("domain", "httpd.apache.org"))
+                .andExpect(status().isOk())
+                .andExpect(content().string(containsString(text)))
+                .andReturn()
+                .getResponse()
+                .getContentAsString();
+
+        System.out.println(result);
+
+    }
+
+  
 }

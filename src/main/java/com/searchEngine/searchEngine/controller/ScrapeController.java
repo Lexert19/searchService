@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.searchEngine.searchEngine.component.SearchService;
 import com.searchEngine.searchEngine.service.ScrapperService;
 
 @RestController
@@ -30,9 +29,7 @@ public class ScrapeController {
             @RequestParam String url,
             @RequestParam String domain) throws IOException {
 
-        SearchService searchService = new SearchService(domain);
-        String displayedText = scrapperService.scrapeDisplayedText(url);
-        searchService.indexDocument(url, displayedText);
+        String displayedText = scrapperService.scrapePage(url, domain);
         return ResponseEntity.ok(displayedText);
 
     }
@@ -41,8 +38,8 @@ public class ScrapeController {
     public ResponseEntity<String> indexDomain(
             @RequestParam String domain,
             @AuthenticationPrincipal UserDetails userDetails) throws IOException {
-        List<String> links = scrapperService.srapeLinksFromDomain(domain);
-        scrapperService.indexLinks(links, domain);
+
+        List<String> links = scrapperService.scrapeDomain(domain, true);
 
         return ResponseEntity.ok("Domain indexed successfully. Number of links: " + links.size());
     }
