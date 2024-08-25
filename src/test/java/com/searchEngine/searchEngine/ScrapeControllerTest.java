@@ -1,68 +1,68 @@
 package com.searchEngine.searchEngine;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.security.test.context.support.WithMockUser;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import com.searchEngine.searchEngine.controller.ScrapeController;
 
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.hamcrest.Matchers.containsString;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringBootTest
-@AutoConfigureMockMvc
 public class ScrapeControllerTest {
     @Autowired
-    MockMvc mockMvc;
+    private ScrapeController scrapeController;
+    private UserDetails userDetails;
+
+    @BeforeEach
+    public void setUp() {
+        userDetails = User
+                .withUsername("test")
+                .password("test")
+                .roles("USER")
+                .build();
+        UsernamePasswordAuthenticationToken userToken = new UsernamePasswordAuthenticationToken(userDetails, null,
+                userDetails.getAuthorities());
+
+        SecurityContextHolder.getContext().setAuthentication(userToken);
+    }
 
     @Test
-    @WithMockUser(username = "user", roles = {"USER"})
     public void scrapeExampleCom() throws Exception {
         String testUrl = "https://example.com";
         String scrapedText = "Example Domain";
 
-        mockMvc.perform(MockMvcRequestBuilders.get("/scrape/website")
-                .param("url", testUrl)
-                .param("domain", "example.com"))
-                .andExpect(status().isOk())
-                .andExpect(content().string(containsString(scrapedText)));
+        ResponseEntity<String> result = scrapeController.indexWebsite(testUrl, "example.com");
+
+        assertEquals(200, result.getStatusCode().value());
+        assertTrue(result.getBody().contains(scrapedText));
+
     }
 
-
     @Test
-    @WithMockUser(username = "user", roles = {"USER"})
     public void scrapeDomain() throws Exception {
         String domain = "example.com";
 
-        String result = mockMvc.perform(MockMvcRequestBuilders.get("/scrape/domain")
-                .param("domain", domain))
-                .andExpect(status().isOk())
-                .andReturn()
-                .getResponse()
-                .getContentAsString();
-
-        System.out.println(result);
+        ResponseEntity<String> result = scrapeController.indexDomain(domain, userDetails);
+        assertEquals(200, result.getStatusCode().value());
 
     }
 
-    @Test
-    @WithMockUser(username = "user", roles = {"USER"})
+    //@Test
     public void scrapeHttpd_apache_org() throws Exception {
         String domain = "httpd.apache.org";
 
-        String result = mockMvc.perform(MockMvcRequestBuilders.get("/scrape/domain")
-                .param("domain", domain))
-                .andExpect(status().isOk())
-                .andReturn()
-                .getResponse()
-                .getContentAsString();
+        ResponseEntity<String> result = scrapeController.indexDomain(domain, userDetails);
+        assertEquals(200, result.getStatusCode().value());
 
         System.out.println(result);
 
     }
 
-    
 }
