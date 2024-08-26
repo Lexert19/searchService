@@ -21,6 +21,7 @@ public class SecurityConfig{
             .authorizeRequests()
             .requestMatchers("/").permitAll()
             .requestMatchers("/api/**").authenticated()
+            .requestMatchers("/panel/**").authenticated()
             .and()
             .addFilterBefore(apiKeyFilter(), UsernamePasswordAuthenticationFilter.class);
         return http.build();
