@@ -22,8 +22,10 @@ public class SecurityConfig{
             .csrf().disable()
             .authorizeRequests()
             .requestMatchers("/").permitAll()
-            .requestMatchers("/api/**").authenticated()
+            .requestMatchers("/blog/**").permitAll()
+            .requestMatchers("/key/**").authenticated()
             .requestMatchers("/panel/**").authenticated()
+            .requestMatchers("/admin/**").hasRole("ADMIN")
             .and()
             .addFilterBefore(apiKeyFilter(), UsernamePasswordAuthenticationFilter.class);
         return http.build();

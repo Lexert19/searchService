@@ -10,10 +10,10 @@ import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
+import com.searchEngine.searchEngine.staticClass.RandomUtil;
+
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
-import java.util.Random;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 
@@ -35,7 +35,6 @@ public class ContactControllerTest {
         assertTrue(content.contains("h1"));
     }
 
-    @Test
     public void postContact() throws Exception {
         MvcResult mvcResult = mockMvc.perform(post("/contact")
                 .param("email", "dominikch19@gmail.com")
@@ -53,9 +52,8 @@ public class ContactControllerTest {
         assertTrue(content.contains("h1"));
     }
 
-    @Test
     public void contactNoneExistentEmail() throws Exception {
-        String email = generateRandomString(6) + "@wp.pl";
+        String email = RandomUtil.generateRandomString(6) + "@wp.pl";
 
         MvcResult mvcResult = mockMvc.perform(post("/contact")
                 .param("email", email)
@@ -75,7 +73,7 @@ public class ContactControllerTest {
 
     @Test
     public void contactTermAndConditionsFalse() throws Exception {
-        String email = generateRandomString(6) + "@wp.pl";
+        String email = RandomUtil.generateRandomString(6) + "@wp.pl";
 
         mockMvc.perform(post("/contact")
                 .param("email", email)
@@ -90,7 +88,7 @@ public class ContactControllerTest {
 
     @Test
     public void contactPrivacyPolicyFalse() throws Exception {
-        String email = generateRandomString(6) + "@wp.pl";
+        String email = RandomUtil.generateRandomString(6) + "@wp.pl";
 
         mockMvc.perform(post("/contact")
                 .param("email", email)
@@ -103,16 +101,5 @@ public class ContactControllerTest {
                 .andReturn();
     }
 
-    private static String generateRandomString(int length) {
-        Random random = new Random();
-        StringBuilder sb = new StringBuilder(length);
-        String CHARACTERS = "abcdefghijklmnopqrstuvwxyz";
-
-        for (int i = 0; i < length; i++) {
-            int index = random.nextInt(CHARACTERS.length());
-            sb.append(CHARACTERS.charAt(index));
-        }
-
-        return sb.toString();
-    }
+    
 }

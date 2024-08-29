@@ -14,14 +14,14 @@ public class RegisterService {
     @Autowired
     private UserModelService userModelService;
 
-    public boolean registerUser(UserModel userModel) throws Exception{
+    public User registerUser(UserModel userModel) throws Exception{
         if(doesUserExists(userModel.getEmail()))
             throw new Exception("User already exists!");
 
         User user = userModelService.createUser(userModel);
         userRepository.save(user);
 
-        return true;
+        return user;
     }
 
     public boolean doesUserExists(String email){

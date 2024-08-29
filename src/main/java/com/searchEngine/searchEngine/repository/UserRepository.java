@@ -10,4 +10,5 @@ import com.searchEngine.searchEngine.entity.User;
 @Repository
 public interface UserRepository extends JpaRepository<User, Integer>{
     Optional<User> findByEmail(String email);
+    User findFirstByOrderByIdAsc();
 }

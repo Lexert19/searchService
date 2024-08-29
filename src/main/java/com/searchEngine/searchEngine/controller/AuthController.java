@@ -57,7 +57,7 @@ public class AuthController {
         Model model
     ) throws Exception{
 
-        if(registerService.registerUser(userModel)){
+        if(registerService.registerUser(userModel) != null){
             return "redirect:/login";
         }
         return "user/register";
