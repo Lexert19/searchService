@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <title>SearchService</title>
-    <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <link rel="stylesheet">
 </head>
 <body>
-    <h1>${message}</h1>
+    <h1><@translate f="main_header" fn="home"/></h1>
     <p></p>
 </body>
 </html>

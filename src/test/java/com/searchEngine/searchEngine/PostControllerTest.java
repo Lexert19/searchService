@@ -30,7 +30,7 @@ public class PostControllerTest {
 
     @Test
     public void getPostByTitle() throws Exception {
-        MvcResult mvcResult = mockMvc.perform(get("/post/aaaaaa"))
+        MvcResult mvcResult = mockMvc.perform(get("/en/post/aaaaaa"))
                 .andExpect(status().isOk())
                 .andReturn();
 

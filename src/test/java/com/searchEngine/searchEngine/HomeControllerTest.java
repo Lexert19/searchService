@@ -19,7 +19,7 @@ public class HomeControllerTest {
 
     @Test
     public void testHomePage() throws Exception {
-        String result = mockMvc.perform(get("/"))
+        String result = mockMvc.perform(get("/en/"))
                 .andExpect(status().isOk())
                 .andReturn()
                 .getResponse()

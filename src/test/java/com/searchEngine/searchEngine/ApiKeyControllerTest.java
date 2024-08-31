@@ -41,7 +41,7 @@ public class ApiKeyControllerTest {
 
     @Test
     public void getRegisterApiKeyForm() throws Exception {
-        MvcResult mvcResult = mockMvc.perform(get("/key/register"))
+        MvcResult mvcResult = mockMvc.perform(get("/en/key/register"))
                 .andExpect(status().isOk())
                 .andReturn();
 
@@ -52,7 +52,7 @@ public class ApiKeyControllerTest {
 
     @Test
     public void createApiKey() throws Exception {
-        MvcResult mvcResult = mockMvc.perform(post("/key/register"))
+        MvcResult mvcResult = mockMvc.perform(post("/en/key/register"))
                 .andExpect(status().isOk())
                 .andReturn();
         MockHttpServletResponse response = mvcResult.getResponse();
