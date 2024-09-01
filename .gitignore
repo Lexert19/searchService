@@ -39,3 +39,4 @@ out/
 
 /storage/
 /token.txt
+/src/main/resources/secret.properties
