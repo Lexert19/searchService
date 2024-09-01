@@ -33,7 +33,7 @@ public class TranslationService {
         return properties;
     }
 
-    public void saveProperties(String fileName, String language, Map<String, String> properties) throws IOException {
+    public Properties saveProperties(String fileName, String language, Map<String, String> properties) throws IOException {
         String fullFileName = fileName + "_" + language + ".properties";
         File translationsFile = new File(System.getProperty("user.dir") + "/translations" + "/" + fullFileName);
 
@@ -42,9 +42,9 @@ public class TranslationService {
 
         try (OutputStream out = new FileOutputStream(translationsFile)) {
             props.store(out, "Properties for language: " + language);
-            // System.out.println("Properties file saved: " +
-            // propertiesFile.getAbsolutePath());
         }
+
+        return props;
 
     }
 

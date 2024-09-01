@@ -35,6 +35,7 @@ public class ContactControllerTest {
         assertTrue(content.contains("h1"));
     }
 
+    @Test
     public void postContact() throws Exception {
         MvcResult mvcResult = mockMvc.perform(post("/en/contact")
                 .param("email", "dominikch19@gmail.com")
@@ -42,7 +43,8 @@ public class ContactControllerTest {
                 .param("lastName", "lastName")
                 .param("content", "content")
                 .param("termsAndConditions", "true")
-                .param("privacyPolicty", "true"))
+                .param("privacyPolicty", "true")
+                .param("g-recaptcha-response", ""))
                 .andExpect(status().isOk())
                 .andReturn();
 
@@ -52,6 +54,7 @@ public class ContactControllerTest {
         assertTrue(content.contains("h1"));
     }
 
+    @Test
     public void contactNoneExistentEmail() throws Exception {
         String email = RandomUtil.generateRandomString(6) + "@wp.pl";
 
@@ -61,7 +64,8 @@ public class ContactControllerTest {
                 .param("lastName", "lastName")
                 .param("content", "content")
                 .param("termsAndConditions", "true")
-                .param("privacyPolicty", "true"))
+                .param("privacyPolicty", "true")
+                .param("g-recaptcha-response", ""))
                 .andExpect(status().isOk())
                 .andReturn();
 
@@ -81,7 +85,8 @@ public class ContactControllerTest {
                 .param("lastName", "lastName")
                 .param("content", "content")
                 .param("termsAndConditions", "false")
-                .param("privacyPolicty", "true"))
+                .param("privacyPolicty", "true")
+                .param("g-recaptcha-response", ""))
                 .andExpect(status().isBadRequest())
                 .andReturn();
     }
@@ -96,7 +101,8 @@ public class ContactControllerTest {
                 .param("lastName", "lastName")
                 .param("content", "content")
                 .param("termsAndConditions", "true")
-                .param("privacyPolicty", "false"))
+                .param("privacyPolicty", "false")
+                .param("g-recaptcha-response", ""))
                 .andExpect(status().isBadRequest())
                 .andReturn();
     }
