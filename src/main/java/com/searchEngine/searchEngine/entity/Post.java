@@ -12,14 +12,14 @@ import lombok.Data;
 
 @Entity
 @Data
-@Table(name = "post")
+@Table(name = "post_record")
 public class Post {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
+    @JoinColumn(name = "account_id", nullable = false)
     private User user;
     @Column(nullable = false)
     private String locale;

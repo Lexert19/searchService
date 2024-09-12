@@ -15,10 +15,9 @@ public class EmailService {
     @Value("${spring.mail.username}")
     private String mailHost;
 
-
     public void sendContactEmail(ContactModel contactModel){
         SimpleMailMessage message = new SimpleMailMessage();
-        message.setTo(contactModel.getEmail());
+        message.setTo(mailHost);
         message.setSubject("Contact form");
         message.setText(contactModel.getContent());
         message.setFrom(mailHost);

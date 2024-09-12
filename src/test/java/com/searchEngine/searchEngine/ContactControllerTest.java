@@ -43,7 +43,7 @@ public class ContactControllerTest {
                 .param("lastName", "lastName")
                 .param("content", "content")
                 .param("termsAndConditions", "true")
-                .param("privacyPolicty", "true")
+                .param("privacyPolicy", "true")
                 .param("g-recaptcha-response", ""))
                 .andExpect(status().isOk())
                 .andReturn();
@@ -64,7 +64,7 @@ public class ContactControllerTest {
                 .param("lastName", "lastName")
                 .param("content", "content")
                 .param("termsAndConditions", "true")
-                .param("privacyPolicty", "true")
+                .param("privacyPolicy", "true")
                 .param("g-recaptcha-response", ""))
                 .andExpect(status().isOk())
                 .andReturn();
@@ -85,7 +85,7 @@ public class ContactControllerTest {
                 .param("lastName", "lastName")
                 .param("content", "content")
                 .param("termsAndConditions", "false")
-                .param("privacyPolicty", "true")
+                .param("privacyPolicy", "true")
                 .param("g-recaptcha-response", ""))
                 .andExpect(status().isBadRequest())
                 .andReturn();
@@ -101,7 +101,7 @@ public class ContactControllerTest {
                 .param("lastName", "lastName")
                 .param("content", "content")
                 .param("termsAndConditions", "true")
-                .param("privacyPolicty", "false")
+                .param("privacyPolicy", "false")
                 .param("g-recaptcha-response", ""))
                 .andExpect(status().isBadRequest())
                 .andReturn();

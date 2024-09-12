@@ -11,6 +11,7 @@ import com.searchEngine.searchEngine.model.UserModel;
 import com.searchEngine.searchEngine.service.AuthService;
 import com.searchEngine.searchEngine.service.RegisterService;
 
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import org.springframework.web.bind.annotation.GetMapping;
@@ -61,6 +62,16 @@ public class AuthController {
             return "redirect:/login";
         }
         return "user/register";
+    }
+
+
+    @GetMapping("/logout")
+    public String logout(
+        HttpServletRequest request,
+        HttpServletResponse response
+    ){
+        this.authService.logout(request, response);
+        return "redirect:/";
     }
     
 }

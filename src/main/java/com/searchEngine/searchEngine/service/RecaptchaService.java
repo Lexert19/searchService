@@ -15,20 +15,25 @@ public class RecaptchaService {
     private static final String RECAPTCHA_VERIFY_URL = "https://www.google.com/recaptcha/api/siteverify";
 
     public boolean validateRecaptcha(String recaptchaResponse) {
-        RestTemplate restTemplate = new RestTemplate();
+        try {
+            RestTemplate restTemplate = new RestTemplate();
 
-        String requestUrl = RECAPTCHA_VERIFY_URL + "?secret=" + recaptchaSecret + "&response=" + recaptchaResponse;
-        ResponseEntity<Map> response = restTemplate.postForEntity(requestUrl, null, Map.class);
+            String requestUrl = RECAPTCHA_VERIFY_URL + "?secret=" + recaptchaSecret + "&response=" + recaptchaResponse;
+            ResponseEntity<Map> response = restTemplate.postForEntity(requestUrl, null, Map.class);
 
-        Map<String, Object> body = response.getBody();
-        boolean recaptchaSuccess = (Boolean) body.get("success");
-        Double score = 0.0;
-        body.getOrDefault("score", score);
+            Map<String, Object> body = response.getBody();
+            boolean recaptchaSuccess = (Boolean) body.get("success");
+            double score = (Double) body.get("score");
+            // body.getOrDefault("score", score);
 
-        if (recaptchaSuccess && score > 0.5) {
-            return true;
-        } else {
+            if (recaptchaSuccess && score > 0.5) {
+                return true;
+            } else {
+                return true;
+            }
+        } catch (Exception e) {
             return true;
         }
+
     }
 }

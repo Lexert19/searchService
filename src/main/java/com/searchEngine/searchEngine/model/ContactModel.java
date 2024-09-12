@@ -11,12 +11,12 @@ public class ContactModel {
     private String lastName;
     private String content;
     private boolean termsAndConditions;
-    private boolean privacyPolicty;
+    private boolean privacyPolicy;
 
-    public void setPrivacyPolicty(boolean privacyPolicty) throws Exception{
+    public void setPrivacyPolicy(boolean privacyPolicty) throws Exception{
         if(!privacyPolicty)
             throw new Exception("Accept privacy policy!");
-        this.privacyPolicty = privacyPolicty;
+        this.privacyPolicy = privacyPolicty;
     }
 
     public void setEmail(String email) {

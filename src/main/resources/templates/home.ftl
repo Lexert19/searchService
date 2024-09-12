@@ -1,12 +1,4 @@
-<!DOCTYPE html>
-<html>
-
-<head>
-    <meta charset="UTF-8">
-    <title>SearchService</title>
-    <link rel="stylesheet">
-    <script src="https://www.google.com/recaptcha/enterprise.js?render=${recaptchaKey}"></script>
-</head>
+<#include "parts/head.ftl">
 
 <body>
     <h1>

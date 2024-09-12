@@ -13,6 +13,8 @@ import com.searchEngine.searchEngine.entity.User;
 import com.searchEngine.searchEngine.model.PostModel;
 import com.searchEngine.searchEngine.repository.PostRepository;
 
+import jakarta.transaction.Transactional;
+
 @Service
 public class PostService {
     @Autowired
@@ -20,6 +22,7 @@ public class PostService {
     @Autowired
     private PostModelService postModelService;
     
+    @Transactional
     public Post addPost(PostModel postModel, User user){
         Post post = postModelService.createPost(postModel, user);
         
@@ -27,6 +30,7 @@ public class PostService {
         return post;
     }
 
+    @Transactional
     public Post editPost(PostModel postModel, User user){
         Optional<Post> optionalPost = postRepository.findById(postModel.getId());
         if(optionalPost.isEmpty())
