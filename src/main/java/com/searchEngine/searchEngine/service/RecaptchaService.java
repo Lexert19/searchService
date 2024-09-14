@@ -23,8 +23,11 @@ public class RecaptchaService {
 
             Map<String, Object> body = response.getBody();
             boolean recaptchaSuccess = (Boolean) body.get("success");
-            double score = (Double) body.get("score");
-            // body.getOrDefault("score", score);
+            Double score = 0.5;
+            try {
+                score = (Double) body.get("score");
+            } catch (Exception e) {
+            }
 
             if (recaptchaSuccess && score > 0.5) {
                 return true;
