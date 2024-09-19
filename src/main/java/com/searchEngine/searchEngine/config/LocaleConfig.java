@@ -12,6 +12,8 @@ import org.springframework.web.servlet.config.annotation.PathMatchConfigurer;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 
+import lombok.NonNull;
+
 @Configuration
 public class LocaleConfig implements WebMvcConfigurer {
 
@@ -29,6 +31,7 @@ public class LocaleConfig implements WebMvcConfigurer {
     }
 
     @Override
+    @NonNull
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(localeChangeInterceptor());
     }

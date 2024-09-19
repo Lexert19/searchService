@@ -12,7 +12,7 @@ import com.searchEngine.searchEngine.entity.Post;
 
 @Repository
 public interface PostRepository extends JpaRepository<Post, Integer>{
-    @Query(value = "SELECT * FROM post ORDER BY id DESC LIMIT :limit", nativeQuery = true)
+    @Query(value = "SELECT * FROM post_record ORDER BY id DESC LIMIT :limit", nativeQuery = true)
     List<Post> findLatestPosts(@Param("limit") int limit);
     Optional<Post> findByTitle(String title);
 

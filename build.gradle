@@ -25,11 +25,12 @@ repositories {
 
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-	// implementation 'org.springframework.boot:spring-boot-starter-jdbc'
+	implementation 'org.springframework.boot:spring-boot-starter-jdbc'
 	// implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
 	implementation 'org.springframework.boot:spring-boot-starter-security'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	compileOnly 'org.projectlombok:lombok'
+
 	implementation 'com.mysql:mysql-connector-j'
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
@@ -44,6 +45,8 @@ dependencies {
 	implementation group: 'org.jsoup', name: 'jsoup', version: '1.18.1'
 	implementation group: 'org.springframework.boot', name: 'spring-boot-starter-freemarker', version: '3.3.3'
 	implementation group: 'org.springframework.boot', name: 'spring-boot-starter-mail', version: '3.3.3'
+	implementation group: 'org.mariadb.jdbc', name: 'mariadb-java-client', version: '3.4.1'
+	implementation group: 'com.paypal.sdk', name: 'checkout-sdk', version: '2.0.0'
 }
 
 tasks.named('test') {

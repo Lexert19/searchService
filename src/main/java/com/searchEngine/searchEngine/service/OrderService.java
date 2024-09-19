@@ -42,6 +42,14 @@ public class OrderService {
 
     }
 
+    public double getOrderAmount(Order order){
+        double amount = 0.00;
+        for(Product product : order.getProducts()){
+            amount += product.getCost();
+        }
+        return amount;
+    }
+
     public void addProduct(AddProductModel addProductModel, User user) throws Exception{
         Optional<Product> product = productRepository.findById(addProductModel.getProductId());
         Optional<Order> order = orderRepository.findById(addProductModel.getOrderId());
