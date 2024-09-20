@@ -16,7 +16,7 @@ import com.searchEngine.searchEngine.repository.PostRepository;
 
 
 @Controller
-@RequestMapping("/post")
+@RequestMapping("/blog")
 public class PostController {
     @Autowired
     private PostRepository postRepository;

@@ -13,32 +13,44 @@ import com.searchEngine.searchEngine.filter.ApiKeyFilter;
 
 @Configuration
 @EnableWebSecurity
-public class SecurityConfig{
-    
-    @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
+public class SecurityConfig {
 
+    @Bean
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-            .csrf().disable()
-            .authorizeRequests()
-            .requestMatchers("/").permitAll()
-            .requestMatchers("/blog/**").permitAll()
-            .requestMatchers("/key/**").authenticated()
-            .requestMatchers("/panel/**").authenticated()
-            .requestMatchers("/admin/**").hasRole("ADMIN")
-            .and()
-            .addFilterBefore(apiKeyFilter(), UsernamePasswordAuthenticationFilter.class);
+                .csrf(csrf -> csrf.disable())
+                .authorizeHttpRequests(authz -> authz
+                        .requestMatchers("/").permitAll()
+                        .requestMatchers("/blog/**").permitAll()
+                        .requestMatchers("/contact/**").permitAll()
+                        .requestMatchers("/auth/**").permitAll()
+                        .requestMatchers("/key/**").authenticated()
+                        .requestMatchers("/panel/**").authenticated()
+                        .requestMatchers("/admin/**").hasRole("ADMIN")
+                        .anyRequest().authenticated())
+                .addFilterBefore(apiKeyFilter(), UsernamePasswordAuthenticationFilter.class);
+
+        // http
+        // .csrf().disable()
+        // .authorizeRequests()
+        // .requestMatchers("/").permitAll()
+        // .requestMatchers("/blog/**").permitAll()
+        // .requestMatchers("/key/**").authenticated()
+        // .requestMatchers("/panel/**").authenticated()
+        // .requestMatchers("/admin/**").hasRole("ADMIN")
+        // .and()
+        // .addFilterBefore(apiKeyFilter(), UsernamePasswordAuthenticationFilter.class);
         return http.build();
 
     }
 
     @Bean
-    public ApiKeyFilter apiKeyFilter(){
+    public ApiKeyFilter apiKeyFilter() {
         return new ApiKeyFilter();
     }
 
     @Bean
-    public PasswordEncoder passwordEncoder(){
+    public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 }

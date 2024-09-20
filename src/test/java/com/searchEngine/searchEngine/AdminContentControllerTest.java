@@ -38,14 +38,14 @@ public class AdminContentControllerTest {
 
     @Test
     public void testNotFoundGetFields() throws Exception {
-        mockMvc.perform(get("/en/admin/content/fields/en/test"))
+        mockMvc.perform(get("/admin/content/fields/en/test"))
                 .andExpect(status().isNotFound())
                 .andReturn();
     }
 
     @Test
     public void testGetFields() throws Exception {
-        MvcResult mvcResult = mockMvc.perform(get("/en/admin/content/fields/pl/test"))
+        MvcResult mvcResult = mockMvc.perform(get("/admin/content/fields/pl/test"))
                 .andExpect(status().isOk())
                 .andReturn();
 
@@ -59,7 +59,7 @@ public class AdminContentControllerTest {
 
     @Test
     public void testPostFields() throws Exception {
-        MvcResult mvcResult = mockMvc.perform(post("/en/admin/content/fields/pl/test")
+        MvcResult mvcResult = mockMvc.perform(post("/admin/content/fields/pl/test")
                 .param("test", "test_value")
                 .param("main_header", "hellow"))
                 .andExpect(status().isOk())

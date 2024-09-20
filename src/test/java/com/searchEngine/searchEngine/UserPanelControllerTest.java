@@ -38,7 +38,7 @@ public class UserPanelControllerTest {
 
     @Test
     public void testHomePage() throws Exception {
-        String result = mockMvc.perform(get("/en/panel/"))
+        String result = mockMvc.perform(get("/panel/"))
                 .andExpect(status().isOk())
                 .andReturn()
                 .getResponse()

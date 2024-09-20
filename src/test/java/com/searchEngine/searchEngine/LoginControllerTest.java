@@ -27,7 +27,7 @@ public class LoginControllerTest {
 
     @Test
     public void testLoginGet() throws UnsupportedEncodingException, Exception {
-        MvcResult mvcResult = mockMvc.perform(get("/en/auth/login"))
+        MvcResult mvcResult = mockMvc.perform(get("/auth/login"))
                 .andExpect(status().isOk())
                 .andReturn();
 
@@ -39,7 +39,7 @@ public class LoginControllerTest {
 
     @Test
     public void testLoginPost() throws UnsupportedEncodingException, Exception {
-        MvcResult mvcResult = mockMvc.perform(post("/en/auth/login")
+        MvcResult mvcResult = mockMvc.perform(post("/auth/login")
                 .param("username", "user")
                 .param("password", "password"))
                 .andExpect(status().isOk())

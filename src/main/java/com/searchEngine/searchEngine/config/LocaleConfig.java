@@ -39,18 +39,18 @@ public class LocaleConfig implements WebMvcConfigurer {
     @Bean
     public LocaleChangeInterceptor localeChangeInterceptor() {
         LocaleChangeInterceptor lci = new LocaleChangeInterceptor();
-        lci.setParamName("locale");
+        lci.setParamName("lang");
         return lci;
     }
 
-    @Override
-    public void configurePathMatch(PathMatchConfigurer configurer) {
-        configurer.addPathPrefix("{locale}", this::isViewController);
-    }
+    // @Override
+    // public void configurePathMatch(PathMatchConfigurer configurer) {
+    //     configurer.addPathPrefix("{locale}", this::isViewController);
+    // }
 
-    private boolean isViewController(Class<?> clazz) {
-        return clazz.isAnnotationPresent(Controller.class)
-                && !clazz.isAnnotationPresent(RestController.class);
-    }
+    // private boolean isViewController(Class<?> clazz) {
+    //     return clazz.isAnnotationPresent(Controller.class)
+    //             && !clazz.isAnnotationPresent(RestController.class);
+    // }
 
 }

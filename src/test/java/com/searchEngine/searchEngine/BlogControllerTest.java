@@ -22,7 +22,7 @@ public class BlogControllerTest {
 
     @Test
     public void getLatestPosts() throws Exception {
-        MvcResult mvcResult = mockMvc.perform(get("/en/blog/"))
+        MvcResult mvcResult = mockMvc.perform(get("/blog/"))
                 .andExpect(status().isOk())
                 .andReturn();
 

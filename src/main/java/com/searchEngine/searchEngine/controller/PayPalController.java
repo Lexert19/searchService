@@ -44,7 +44,7 @@ public class PayPalController {
         OrderRequest orderRequest = payPalService.buildRequestBody(orderService.getOrderAmount(order));
         String link = payPalService.executeOrder(orderRequest);
 
-
-        return link;
+        model.addAttribute("link", link);
+        return "payment/order";
     }
 }

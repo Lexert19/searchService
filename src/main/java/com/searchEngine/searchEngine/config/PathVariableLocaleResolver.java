@@ -10,12 +10,11 @@ import jakarta.servlet.http.HttpServletResponse;
 public class PathVariableLocaleResolver implements LocaleResolver {
     @Override
     public Locale resolveLocale(HttpServletRequest request) {
-        String path = request.getRequestURI();
-        String[] parts = path.split("/");
-        if (parts.length > 1) {
-            return new Locale(parts[1]); 
+        String lang = request.getParameter("lang");
+        if (lang != null && !lang.isEmpty()) {
+            return new Locale(lang); 
         }
-        return Locale.getDefault();
+        return new Locale("en");
     }
 
     @Override

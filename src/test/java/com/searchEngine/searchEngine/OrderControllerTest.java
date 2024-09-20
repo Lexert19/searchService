@@ -48,7 +48,7 @@ public class OrderControllerTest {
     public void testCreateOrder() throws Exception {
         List<Product> products = setupContext.setupProducts();
 
-        MvcResult mvcResult = mockMvc.perform(post("/en/panel/order/create")
+        MvcResult mvcResult = mockMvc.perform(post("/panel/order/create")
                 .param("productsId[0]", products.get(0).getId().toString())
                 .param("productsId[1]", products.get(1).getId().toString()))
                 .andExpect(status().isOk())
@@ -66,7 +66,7 @@ public class OrderControllerTest {
         Order order = setupContext.setupOrder(userDetails);
         List<Product> products = setupContext.setupProducts();
 
-        MvcResult mvcResult = mockMvc.perform(post("/en/panel/order/add")
+        MvcResult mvcResult = mockMvc.perform(post("/panel/order/add")
                 .param("productId", products.get(0).getId().toString())
                 .param("orderId", order.getId().toString()))
                 .andExpect(status().isOk())
@@ -84,7 +84,7 @@ public class OrderControllerTest {
         List<Product> products = setupContext.setupProducts();
         orderService.addProduct(products.get(0), order, userDetails);
 
-        MvcResult mvcResult = mockMvc.perform(post("/en/panel/order/pay")
+        MvcResult mvcResult = mockMvc.perform(post("/panel/order/pay")
                 .param("orderId", order.getId().toString()))
                 .andExpect(status().isOk())
                 .andReturn();

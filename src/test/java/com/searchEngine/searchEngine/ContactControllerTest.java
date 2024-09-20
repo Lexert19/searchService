@@ -25,7 +25,7 @@ public class ContactControllerTest {
 
     @Test
     public void getContact() throws Exception {
-        MvcResult mvcResult = mockMvc.perform(get("/en/contact"))
+        MvcResult mvcResult = mockMvc.perform(get("/contact"))
                 .andExpect(status().isOk())
                 .andReturn();
 
@@ -37,7 +37,7 @@ public class ContactControllerTest {
 
     @Test
     public void postContact() throws Exception {
-        MvcResult mvcResult = mockMvc.perform(post("/en/contact")
+        MvcResult mvcResult = mockMvc.perform(post("/contact")
                 .param("email", "dominikch19@gmail.com")
                 .param("firstName", "firstName")
                 .param("lastName", "lastName")
@@ -58,7 +58,7 @@ public class ContactControllerTest {
     public void contactNoneExistentEmail() throws Exception {
         String email = RandomUtil.generateRandomString(6) + "@wp.pl";
 
-        MvcResult mvcResult = mockMvc.perform(post("/en/contact")
+        MvcResult mvcResult = mockMvc.perform(post("/contact")
                 .param("email", email)
                 .param("firstName", "firstName")
                 .param("lastName", "lastName")
@@ -79,7 +79,7 @@ public class ContactControllerTest {
     public void contactTermAndConditionsFalse() throws Exception {
         String email = RandomUtil.generateRandomString(6) + "@wp.pl";
 
-        mockMvc.perform(post("/en/contact")
+        mockMvc.perform(post("/contact")
                 .param("email", email)
                 .param("firstName", "firstName")
                 .param("lastName", "lastName")
@@ -95,7 +95,7 @@ public class ContactControllerTest {
     public void contactPrivacyPolicyFalse() throws Exception {
         String email = RandomUtil.generateRandomString(6) + "@wp.pl";
 
-        mockMvc.perform(post("/en/contact")
+        mockMvc.perform(post("/contact")
                 .param("email", email)
                 .param("firstName", "firstName")
                 .param("lastName", "lastName")

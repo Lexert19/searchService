@@ -40,7 +40,7 @@ public class AdminPostControllerTest {
 
     @Test
     public void addPost() throws Exception {
-        MvcResult mvcResult = mockMvc.perform(post("/en/admin/post/add")
+        MvcResult mvcResult = mockMvc.perform(post("/admin/post/add")
                 .param("title", RandomUtil.generateRandomString(6))
                 .param("content", "content")
                 .param("locale", "pl"))
@@ -54,7 +54,7 @@ public class AdminPostControllerTest {
     }
 
     public void getAddPostForm() throws Exception {
-        MvcResult mvcResult = mockMvc.perform(get("/en/admin/post/add"))
+        MvcResult mvcResult = mockMvc.perform(get("/admin/post/add"))
                 .andExpect(status().isOk())
                 .andReturn();
         MockHttpServletResponse response = mvcResult.getResponse();
@@ -68,7 +68,7 @@ public class AdminPostControllerTest {
         setupContext.setupUser();
         Post post = setupContext.setupPost(RandomUtil.generateRandomString(6));
 
-        MvcResult mvcResult = mockMvc.perform(get("/en/admin/post/edit/" + post.getId()))
+        MvcResult mvcResult = mockMvc.perform(get("/admin/post/edit/" + post.getId()))
                 .andExpect(status().isOk())
                 .andReturn();
         MockHttpServletResponse response = mvcResult.getResponse();
@@ -81,7 +81,7 @@ public class AdminPostControllerTest {
     public void editPost() throws Exception {
         Post post = setupContext.setupPost(RandomUtil.generateRandomString(6));
 
-        MvcResult mvcResult = mockMvc.perform(post("/en/admin/post/edit")
+        MvcResult mvcResult = mockMvc.perform(post("/admin/post/edit")
                 .param("title", "Edited" + RandomUtil.generateRandomString(6))
                 .param("content", "content")
                 .param("id", post.getId().toString())

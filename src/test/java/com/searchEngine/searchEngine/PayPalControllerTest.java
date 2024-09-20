@@ -42,14 +42,14 @@ public class PayPalControllerTest {
     public void testPayPalPayment() throws Exception {
         Order order = setupContext.setupOrder(userDetails);
 
-        MvcResult mvcResult = mockMvc.perform(post("/en/payment/paypal/createOrder")
-                .param("orderId", order.getId().toString(0)))
+        MvcResult mvcResult = mockMvc.perform(post("/payment/paypal/createOrder")
+                .param("orderId", order.getId().toString()))
                 .andExpect(status().isOk())
                 .andReturn();
 
          MockHttpServletResponse response = mvcResult.getResponse();
 
         String content = response.getContentAsString();
-        assertTrue(content.contains("h1"));
+        assertTrue(content.contains("head"));
     }
 }

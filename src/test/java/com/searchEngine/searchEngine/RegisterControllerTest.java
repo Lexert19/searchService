@@ -29,7 +29,7 @@ public class RegisterControllerTest {
 
     @Test
     public void getRegister() throws Exception {
-        MvcResult mvcResult = mockMvc.perform(get("/en/auth/register"))
+        MvcResult mvcResult = mockMvc.perform(get("/auth/register"))
                 .andExpect(status().isOk())
                 .andReturn();
 
@@ -44,7 +44,7 @@ public class RegisterControllerTest {
     public void postRegister() throws Exception {
         String email = RandomUtil.generateRandomString(6) + "@wp.pl";
 
-        mockMvc.perform(post("/en/auth/register")
+        mockMvc.perform(post("/auth/register")
                 .param("username", "username")
                 .param("email", email)
                 .param("birthDate", "2002-12-12")
