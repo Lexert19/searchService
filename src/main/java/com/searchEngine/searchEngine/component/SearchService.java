@@ -16,9 +16,6 @@ import org.apache.lucene.index.IndexNotFoundException;
 import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
-import org.apache.lucene.index.MultiTerms;
-import org.apache.lucene.index.Terms;
-import org.apache.lucene.index.TermsEnum;
 import org.apache.lucene.queryparser.flexible.core.QueryNodeException;
 import org.apache.lucene.queryparser.flexible.standard.StandardQueryParser;
 import org.apache.lucene.search.IndexSearcher;
@@ -27,7 +24,6 @@ import org.apache.lucene.search.ScoreDoc;
 import org.apache.lucene.search.TopDocs;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
-import org.apache.lucene.util.BytesRef;
 
 import com.searchEngine.searchEngine.model.SearchResult;
 
@@ -63,17 +59,19 @@ public class SearchService {
 
     public List<SearchResult> searchDocuments(String queryString) throws QueryNodeException, IOException {
         Query query = queryParser.parse(queryString, "content");
+        List<SearchResult> results = new ArrayList<>();
 
         try (IndexReader reader = DirectoryReader.open(index)) {
             IndexSearcher searcher = new IndexSearcher(reader);
             TopDocs topDocs = searcher.search(query, 10);
 
-            List<SearchResult> results = new ArrayList<>();
             for (ScoreDoc scoreDoc : topDocs.scoreDocs) {
                 Document doc = searcher.doc(scoreDoc.doc);
                 results.add(new SearchResult(doc.get("title"), doc.get("content"), scoreDoc.score));
             }
 
+            return results;
+        } catch (IOException e) {
             return results;
         }
     }
@@ -82,16 +80,16 @@ public class SearchService {
         HashSet<String> titles = new HashSet<>();
 
         try (IndexReader reader = DirectoryReader.open(index)) {
-            Terms terms = MultiTerms.getTerms(reader, "title");
 
-            if (terms != null) {
-                TermsEnum termsEnum = terms.iterator();
-                BytesRef text;
-                while ((text = termsEnum.next()) != null) {
-                    titles.add(text.utf8ToString());
+            for (int i = 0; i < reader.maxDoc(); i++) {
+                Document doc = reader.document(i);
+                String title = doc.get("title");
+                if (title != null) {
+                    titles.add(title);
                 }
             }
-        }catch(IndexNotFoundException exception){
+           
+        } catch (IndexNotFoundException exception) {
 
         }
 

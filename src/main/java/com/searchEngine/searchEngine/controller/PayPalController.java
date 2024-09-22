@@ -3,17 +3,13 @@ package com.searchEngine.searchEngine.controller;
 import java.io.IOException;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.paypal.core.PayPalHttpClient;
-import com.paypal.orders.Order;
 import com.paypal.orders.OrderRequest;
-import com.paypal.orders.OrdersCreateRequest;
 import com.searchEngine.searchEngine.model.PayOrderModel;
 import com.searchEngine.searchEngine.repository.OrderRepository;
 import com.searchEngine.searchEngine.service.OrderService;

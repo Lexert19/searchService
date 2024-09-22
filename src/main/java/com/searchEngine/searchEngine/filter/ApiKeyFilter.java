@@ -1,15 +1,17 @@
 package com.searchEngine.searchEngine.filter;
 
 import java.io.IOException;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
+import com.searchEngine.searchEngine.entity.ApiKey;
+import com.searchEngine.searchEngine.entity.User;
 import com.searchEngine.searchEngine.service.ApiKeyService;
 
 import jakarta.servlet.FilterChain;
@@ -37,12 +39,10 @@ public class ApiKeyFilter extends OncePerRequestFilter {
         }
 
         String apiKey = request.getHeader("apiKey");
-        if (apiKeyService.apiKeyExists(apiKey)) {
-            UserDetails userDetails = User
-                    .withUsername("test")
-                    .password("test")
-                    .roles("USER")
-                    .build();
+        Optional<ApiKey> key = apiKeyService.getApiKey(apiKey);
+        if (key.isPresent()) {
+
+            User userDetails = key.get().getUser();
             UsernamePasswordAuthenticationToken userToken = new UsernamePasswordAuthenticationToken(userDetails, null,
                     userDetails.getAuthorities());
             SecurityContextHolder.getContext().setAuthentication(userToken);

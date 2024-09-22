@@ -47,6 +47,7 @@ dependencies {
 	implementation group: 'org.springframework.boot', name: 'spring-boot-starter-mail', version: '3.3.3'
 	implementation group: 'org.mariadb.jdbc', name: 'mariadb-java-client', version: '3.4.1'
 	implementation group: 'com.paypal.sdk', name: 'checkout-sdk', version: '2.0.0'
+	implementation group: 'org.apache.httpcomponents.client5', name: 'httpclient5', version: '5.4'
 }
 
 tasks.named('test') {

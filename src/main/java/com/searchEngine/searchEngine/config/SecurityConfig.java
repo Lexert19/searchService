@@ -21,25 +21,17 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(authz -> authz
                         .requestMatchers("/").permitAll()
+                        .requestMatchers("/public/**").permitAll()
                         .requestMatchers("/blog/**").permitAll()
                         .requestMatchers("/contact/**").permitAll()
                         .requestMatchers("/auth/**").permitAll()
                         .requestMatchers("/key/**").authenticated()
                         .requestMatchers("/panel/**").authenticated()
                         .requestMatchers("/admin/**").hasRole("ADMIN")
-                        .anyRequest().authenticated())
+                        .anyRequest().permitAll()
+                        )
                 .addFilterBefore(apiKeyFilter(), UsernamePasswordAuthenticationFilter.class);
 
-        // http
-        // .csrf().disable()
-        // .authorizeRequests()
-        // .requestMatchers("/").permitAll()
-        // .requestMatchers("/blog/**").permitAll()
-        // .requestMatchers("/key/**").authenticated()
-        // .requestMatchers("/panel/**").authenticated()
-        // .requestMatchers("/admin/**").hasRole("ADMIN")
-        // .and()
-        // .addFilterBefore(apiKeyFilter(), UsernamePasswordAuthenticationFilter.class);
         return http.build();
 
     }

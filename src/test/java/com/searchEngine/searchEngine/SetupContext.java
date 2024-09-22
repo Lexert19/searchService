@@ -1,5 +1,6 @@
 package com.searchEngine.searchEngine;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,6 +20,7 @@ import com.searchEngine.searchEngine.service.OrderService;
 import com.searchEngine.searchEngine.service.PostService;
 import com.searchEngine.searchEngine.service.ProductService;
 import com.searchEngine.searchEngine.service.RegisterService;
+import com.searchEngine.searchEngine.service.ScrapperService;
 import com.searchEngine.searchEngine.staticClass.RandomUtil;
 
 @Component
@@ -33,6 +35,8 @@ public class SetupContext {
     private ProductService productService;
     @Autowired
     private OrderService orderService;
+    @Autowired
+    private ScrapperService scrapperService;
 
     public User setupUser() throws Exception {
         UserModel userModel = new UserModel();
@@ -45,6 +49,10 @@ public class SetupContext {
         userModel.setUsername("username");
 
         return registerService.registerUser(userModel);
+    }
+
+    public void scrapeLocalhost() throws IOException{
+        String displayedText = scrapperService.scrapePage("http://localhost:8080/", "localhost");
     }
 
     public User setupAdminUser() throws Exception {

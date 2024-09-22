@@ -5,6 +5,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 @Service
@@ -23,18 +24,18 @@ public class RecaptchaService {
 
             Map<String, Object> body = response.getBody();
             boolean recaptchaSuccess = (Boolean) body.get("success");
-            Double score = 0.5;
-            try {
+            Double score = 0.0;
+            if(body.containsKey("score"))
                 score = (Double) body.get("score");
-            } catch (Exception e) {
-            }
 
             if (recaptchaSuccess && score > 0.5) {
                 return true;
             } else {
                 return true;
             }
-        } catch (Exception e) {
+        } catch (RestClientException e) {
+            return true;
+        }catch(Exception e){
             return true;
         }
 

@@ -1,12 +1,15 @@
 package com.searchEngine.searchEngine.service;
 
+import java.util.Optional;
 import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.searchEngine.searchEngine.entity.ApiKey;
+import com.searchEngine.searchEngine.entity.User;
 import com.searchEngine.searchEngine.repository.ApiKeyRepository;
+
 
 @Service
 public class ApiKeyService {
@@ -18,10 +21,15 @@ public class ApiKeyService {
         return apiKeyRepository.findByKey(apiKey).isPresent();
     }
 
-    public ApiKey createApiKey() {
+    public Optional<ApiKey> getApiKey(String apiKey){
+        return apiKeyRepository.findByKey(apiKey);
+    }
+
+    public ApiKey createApiKey(User user) {
         String key = this.randomKey(30);
-        ApiKey apiKey = new ApiKey(key);
+        ApiKey apiKey = new ApiKey(key, user);
         apiKeyRepository.save(apiKey);
+
         return apiKey;
     }
 

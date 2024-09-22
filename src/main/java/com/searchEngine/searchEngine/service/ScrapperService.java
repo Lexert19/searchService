@@ -47,11 +47,6 @@ public class ScrapperService {
         return displayedText;
     }
 
-    // public List<String> scrapeLinksWithDomain(String url, String domain) throws IOException {
-
-       
-    // }
-
     public List<String> scrapeLinksFromHtml(Document document, String domain, String url) throws IOException {
         List<String> filteredLinks = new LinkedList<>();
 
@@ -108,22 +103,9 @@ public class ScrapperService {
         return new LinkedList<>(uniqueLinks);
     }
 
-    // public Document getUrl(String url){
-
-    // }
-
     public List<String> srapeLinksFromDomain(String domain) throws IOException{
         return this.scrapeDomain(domain, true);
     }
-
-    // public void indexDocuments(List<Document> documents, String domain) throws IOException{
-    //     SearchService searchService = new SearchService(domain);
-
-    //     for(Document document : documents){
-    //         String text = this.scrapeDisplayedText(document);
-    //         searchService.indexDocument(document.title(), text);
-    //     }
-    // }
 
     private boolean isSameDomain(String url, String domain){
         if(url.startsWith("/"))
