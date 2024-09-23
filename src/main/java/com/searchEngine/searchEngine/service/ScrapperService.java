@@ -22,10 +22,11 @@ public class ScrapperService {
     public String scrapeDisplayedText(Document document) throws IOException {
         StringBuilder displayedText = new StringBuilder();
 
-        Elements textElements = document.select("p, h1, h2, h3, h4, h5, h6, li, span, div");
+        Elements textElements = document
+                .select("main p, main h1, main h2, main h3, main h4, main h5, main h6, main li, main span");
         for (Element element : textElements) {
             String text = element.text().trim();
-            if (!text.isEmpty()) {
+            if (!text.isEmpty() && text.split("\\s+").length > 2) {
                 displayedText.append(text).append("\n");
             }
         }
@@ -36,9 +37,9 @@ public class ScrapperService {
     public String scrapePage(String url, String domain) throws IOException {
         SearchService searchService = new SearchService(domain);
         Document document;
-        try{
+        try {
             document = Jsoup.connect(url).get();
-        }catch(Exception exception){
+        } catch (Exception exception) {
             exception.printStackTrace();
             return "";
         }
@@ -52,10 +53,10 @@ public class ScrapperService {
 
         Elements links = document.select("a[href]");
 
-        for(Element link : links){
+        for (Element link : links) {
             String href = link.attr("abs:href");
 
-            if(isSameDomain(url, domain))
+            if (isSameDomain(url, domain))
                 filteredLinks.add(href);
         }
 
@@ -63,11 +64,10 @@ public class ScrapperService {
 
     }
 
-
-    public List<String> scrapeDomain(String domain, boolean https) throws IOException{
+    public List<String> scrapeDomain(String domain, boolean https) throws IOException {
         SearchService searchService = new SearchService(domain);
         String protocol = https ? "https://" : "http://";
-        String url = protocol+domain;
+        String url = protocol + domain;
         HashSet<String> uniqueLinks = new HashSet<>();
         uniqueLinks.add(url);
 
@@ -75,14 +75,14 @@ public class ScrapperService {
         linksToDownload.add(url);
 
         int counter = 0;
-        while(!linksToDownload.isEmpty()){
-            if(counter > LIMIT)
+        while (!linksToDownload.isEmpty()) {
+            if (counter > LIMIT)
                 break;
             String linkToDownload = linksToDownload.poll();
             Document document;
-            try{
+            try {
                 document = Jsoup.connect(linkToDownload).get();
-            }catch(UnsupportedMimeTypeException exception){
+            } catch (UnsupportedMimeTypeException exception) {
                 exception.printStackTrace();
                 continue;
             }
@@ -90,8 +90,8 @@ public class ScrapperService {
             String text = this.scrapeDisplayedText(document);
             searchService.indexDocument(linkToDownload, text);
 
-            for(String link : links){
-                if(!uniqueLinks.contains(link)){
+            for (String link : links) {
+                if (!uniqueLinks.contains(link)) {
                     linksToDownload.add(link);
                     uniqueLinks.add(link);
                 }
@@ -103,14 +103,14 @@ public class ScrapperService {
         return new LinkedList<>(uniqueLinks);
     }
 
-    public List<String> srapeLinksFromDomain(String domain) throws IOException{
+    public List<String> srapeLinksFromDomain(String domain) throws IOException {
         return this.scrapeDomain(domain, true);
     }
 
-    private boolean isSameDomain(String url, String domain){
-        if(url.startsWith("/"))
+    private boolean isSameDomain(String url, String domain) {
+        if (url.startsWith("/"))
             return true;
-        if(url.contains("://"+domain))
+        if (url.contains("://" + domain))
             return true;
 
         return false;
